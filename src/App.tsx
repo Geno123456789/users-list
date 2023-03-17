@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserData } from './components/UserData';
+import { UserList } from './components/UserList';
 import './App.css';
 
 
@@ -7,7 +7,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <UserData />
+      <UserList />
     </div>
   );
 }

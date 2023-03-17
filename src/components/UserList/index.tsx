@@ -3,13 +3,16 @@ import { getUsers, setUsersToStore } from '../../api/api';
 import { useTypedSelector } from '../../hook/useTypedSelector';
 import { useTypedDispatch } from '../../redux';
 import { removeUser, updateUsers } from '../../redux/userReducer';
+import { FaTrashAlt } from 'react-icons/fa';
 import { UserDataType } from '../../types/userType';
 import { Hightlight } from '../Hightlight';
 import { Popup } from '../Popup';
-import styles from "./UserData.module.css";
+import { Spinner } from '../Spinner';
+import styles from "./UserList.module.css";
 
 
-export const UserData  = () => {
+
+export const UserList  = () => {
   const dispatch = useTypedDispatch();
   const persons: UserDataType[] = useTypedSelector((state) => state.data['users']);
   const [searchValue, setSearchValue] = useState("");
@@ -52,7 +55,7 @@ const resetHandler = () => {
 }
 
 const light = useCallback((str:string) => {
-  return <Hightlight filter={searchValue} str={str} />
+   return <Hightlight filter={searchValue} str={str} />
 }, [searchValue])
 
 
@@ -68,20 +71,20 @@ const handleClosePopup = () => {
 
   return  (
     <div>
-      <div className="search">
+      <form>
         <input 
+          type="text" 
           value={searchValue} 
           onChange={(e) => setSearchValue(e.target.value)} 
-          type="text" 
           placeholder="Search" 
-          className="search-input"/>
+          className={styles.search}/>
         <button onClick={resetHandler}>Reset</button>
-      </div>
-      <table>
+      </form>
+      {!persons[0]?.name ? <Spinner /> : <table>
           <thead>
             <tr>
               <th>Name</th>
-              <th>UserName</th>
+              <th>Username</th>
               <th>Email</th>
             </tr>
           </thead>
@@ -92,14 +95,13 @@ const handleClosePopup = () => {
                       <td onClick={() => handleOpenPopup(person.address.city, person.company.name)}>{light(person.name)}</td>
                       <td onClick={() => handleOpenPopup(person.address.city, person.company.name)}>{light(person.username)}</td>
                       <td onClick={() => handleOpenPopup(person.address.city, person.company.name)}>{light(person.email)}</td>
-                      <button onClick={()=> onRemoveUser(person.id)}>delete</button>
+                      <button className={styles.deleteBtn} onClick={()=> onRemoveUser(person.id)}><FaTrashAlt/></button>
                     </tr>
                   )
                 }
               </tbody>
-      </table>
+      </table>}
             {isOpenPopup && <Popup 
-            className={styles.backdrop} 
             address={address} 
             company={company} 
             onClose={handleClosePopup} />}

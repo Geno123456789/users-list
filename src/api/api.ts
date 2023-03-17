@@ -20,7 +20,7 @@ export const setUsersToStore =
 export const getUsers = () => (
     axios.get<UserDataType[]>('https://jsonplaceholder.typicode.com/users').then((resp) => {
             const allPersons = resp.data;
-                    return allPersons;
+              return allPersons;
         }).catch((err) => {
             throw err;
           })

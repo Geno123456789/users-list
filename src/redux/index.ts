@@ -1,9 +1,6 @@
 import { createStore, applyMiddleware, Action, PreloadedState, combineReducers } from "redux";
-
 import { useDispatch } from "react-redux";
-
 import { composeWithDevTools } from "redux-devtools-extension";
-
 import thunk, { ThunkDispatch } from "redux-thunk";
 import userReducer from "./userReducer";
 

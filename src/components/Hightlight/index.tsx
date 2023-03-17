@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-
+import React from 'react';
 import styles from "./Hightlight.module.css";
 
 type PropsType = {
@@ -7,22 +6,22 @@ type PropsType = {
   str: string;
 };
 
-// @ts-ignore
-  export const Hightlight:React.FC<PropsType>  = ({ filter, str }) => {
+
+  export const Hightlight  = ({ filter, str }:PropsType):JSX.Element => {
     
-    if (!filter) return str;
+    if (!filter) return <>{str}</>;
     
     const regexp = new RegExp(filter, 'ig');
     const matchValue = str.match(regexp);
   
     if (matchValue) {
-      return str.split(regexp).map((s, index, array) => {
+      return <>{str.split(regexp).map((item, index, array) => {
         if (index < array.length - 1) {
-          const c = matchValue.shift()
-          return <>{s}<span className={styles.hightlight}>{c}</span></>
+          const matchingVal = matchValue.shift()
+          return <>{item}<span className={styles.hightlight}>{matchingVal}</span></>
         }
-        return s;
-      })
+        return <>{item}</>;
+      })}</>
     }
-    return str;
+     return <>{str}</>;
   }
